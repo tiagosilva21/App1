@@ -84,7 +84,7 @@ var lg;
 //
 var onSuccess = function(position) {
        navigator.notification.alert('lat: ' + position.coords.latitude + ' , lng: ' + position.coords.longitude);
-    lg = {lat: position.coords.latitude, lng: position.coords.longitude};
+    lg = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
     
 };
 
