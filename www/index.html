@@ -116,8 +116,8 @@ db.transaction(function (tx) {
     tx.executeSql('SELECT * FROM mark', [], function (tx, results) {
         var len = results.rows.length, i;
           
-		var lt = alat;
-		var lg = alng;
+		var lt =  "-9.7361161";
+		var lg = "-36.6809188";
 		   
 		var pp = new google.maps.LatLng(lt, lg);
 		
