@@ -63,7 +63,6 @@
 </head>
 
 <body>
-
 <div data-role="page" id="mainpage">
 	<div data-role="header"><h1>Mapa</h1>
 	<a href="#pg_add" onclick="geo();" class="ui-btn ui-corner-all">Add</a>
@@ -80,7 +79,7 @@
 	<input type="text" name="titulo" id="titulo" placeholder="Titulo" value="">
 	<input type="text" name="latitude" id="latitude" placeholder="Latitude" value="">
 	<input type="text" name="longitude" id="longitude" placeholder="Longitude" value="">
-	<a href="#pg_add" class="ui-btn ui-corner-all">Salvar</a>
+	<a href="#"  onclick="btSalvar();" class="ui-btn ui-corner-all">Salvar</a>
 	
 	</div>
 	<!--div data-role="footer" data-position="fixed">Footer</div-->
@@ -92,42 +91,6 @@
 	<script type="text/javascript">
         app.initialize();
 
-
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see the error "The Geolocation service
-// failed.", it means you probably did not give permission for the browser to
-// locate you.
-/*
-function initMap() {
-  
-  
-
-  // Try HTML5 geolocation.
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: pos,
-    zoom: 6
-  });  	
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-
-    var marker = new google.maps.Marker({
-    position: pos,
-    map: map,
-    title: 'Hello World!'
-  });
-    }, function() {
-      navigator.notification.alert('teste');
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    navigator.notification.alert('teste1');
-  }
-}
-*/
 
 var db = openDatabase("Teste", "1.0", "Teste Web SQL Database", 200000);
 
@@ -197,7 +160,6 @@ function onError(error) {
 navigator.geolocation.getCurrentPosition(onSuccess, onError);
 	function geo(){
 	
-navigator.geolocation.getCurrentPosition(onSuccess, onError);
 	document.getElementById("latitude").value = alat;
 	document.getElementById("longitude").value = alng;
 	}
@@ -217,8 +179,8 @@ navigator.geolocation.getCurrentPosition(onSuccess, onError);
 	
 	}
 	
-
-
+	
+	
     </script>
 </body>
 
