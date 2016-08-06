@@ -63,10 +63,25 @@
 </head>
 
 <body>
+
 <div data-role="page" id="mainpage">
-	<div data-role="header">Header</div>
+	<div data-role="header"><h1>Mapa</h1>
+	<a href="#pg_add" onclick="geo();" class="ui-btn ui-corner-all">Add</a>
+	</div>
 	<!--div role="main" class="ui-content"-->
 	<div id="map">
+	</div>
+	<!--div data-role="footer" data-position="fixed">Footer</div-->
+</div>
+<div data-role="page" id="pg_add">
+	<div data-role="header"><h1>Adicionar Marker</h1></div>
+	<div role="main" class="ui-content">
+	
+	<input type="text" name="titulo" id="titulo" placeholder="Titulo" value="">
+	<input type="text" name="latitude" id="latitude" placeholder="Latitude" value="">
+	<input type="text" name="longitude" id="longitude" placeholder="Longitude" value="">
+	<a href="#pg_add" class="ui-btn ui-corner-all">Salvar</a>
+	
 	</div>
 	<!--div data-role="footer" data-position="fixed">Footer</div-->
 </div>
@@ -82,7 +97,7 @@
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
 // locate you.
-
+/*
 function initMap() {
   
   
@@ -112,10 +127,97 @@ function initMap() {
     navigator.notification.alert('teste1');
   }
 }
+*/
+
+var db = openDatabase("Teste", "1.0", "Teste Web SQL Database", 200000);
+
+ db.transaction(function (tx) {
+    // criar a tabela
+    tx.executeSql("CREATE TABLE mark (titulo TEXT, lat TEXT, lng TEXT)", [[]], null, null);
+ });
+ 
+    /* inserir dados
+	db.transaction(function (tx) {
+			tx.executeSql("INSERT INTO mark (lat, lng) values(?, ?)", [66.02219, 12.63376], null, null);
+	}); */
+	
+	
+	
 
 
+var map;
+function initMap() {
+
+  
+db.transaction(function (tx) {
+    tx.executeSql('SELECT * FROM mark', [], function (tx, results) {
+        var len = results.rows.length, i;
+          
+		var lt = alat;
+		var lg = alng;
+		   
+		var pp = new google.maps.LatLng(lt, lg);
+		
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: pp,
+			zoom: 16
+		});
+        
+
+		for (i = 0; i < len; i++){
+           
+			var marker = new google.maps.Marker({
+				position: new google.maps.LatLng(results.rows.item(i).lat, results.rows.item(i).lng),
+				map: map,
+				title: results.rows.item(i).titulo 
+			});
+        }
+    }, null);
+});
+}
 
 google.maps.event.addDomListener(window, 'load', initMap);
+    var alat, alng;
+	
+
+	
+	var onSuccess = function(position) {
+   alat = position.coords.latitude;
+   alng = position.coords.longitude;
+   
+};
+
+// onError Callback receives a PositionError object
+//
+function onError(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+}
+
+navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	function geo(){
+	
+navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	document.getElementById("latitude").value = alat;
+	document.getElementById("longitude").value = alng;
+	}
+	
+	function btSalvar(){
+	
+	var latitude1 = document.getElementById("latitude").value;
+	var longitude1 = document.getElementById("longitude").value;
+	var titulo1 = document.getElementById("titulo").value;
+	
+	db.transaction(function (tx) {
+			tx.executeSql("INSERT INTO mark (titulo, lat, lng) values(?, ?, ?)", [titulo1, latitude1, longitude1], null, null);
+	});
+	
+	initMap();
+	$.mobile.changePage( "#mainpage", { transition: "slideup"} );
+	
+	}
+	
+
 
     </script>
 </body>
